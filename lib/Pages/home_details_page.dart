@@ -15,7 +15,9 @@ class HomeDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+      ),
       backgroundColor: MyTheme.creamColor,
       bottomNavigationBar: Container(
         color: Colors.white,
@@ -31,8 +33,8 @@ class HomeDetailPage extends StatelessWidget {
                             MaterialStateProperty.all(MyTheme.darkBluishColor),
                         shape:
                             MaterialStateProperty.all(const StadiumBorder())),
-                    child: "Buy".text.make())
-                .wh(100, 50)
+                    child: "Add to cart".text.make())
+                .wh(120, 50)
           ],
         ).p32(),
       ),
@@ -52,16 +54,26 @@ class HomeDetailPage extends StatelessWidget {
               child: Container(
                 width: context.screenWidth,
                 color: Colors.white,
-                child: Column(
-                  children: [
-                    catalog.name.text.xl4
-                        .color(MyTheme.darkBluishColor)
-                        .bold
-                        .make(),
-                    catalog.desc.text.textStyle(context.captionStyle).xl.make(),
-                    10.heightBox
-                  ],
-                ).py64(),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      catalog.name.text.xl4
+                          .color(MyTheme.darkBluishColor)
+                          .bold
+                          .make(),
+                      catalog.desc.text
+                          .textStyle(context.captionStyle)
+                          .xl
+                          .make(),
+                      10.heightBox,
+                      "Clita erat dolor elitr dolor justo, labore aliquyam tempor ea labore sanctus. Vero dolore rebum nonumy kasd vero sadipscing ut sit. Labore magna consetetur labore dolor lorem ut duo, amet sit justo gubergren eirmod sea vero voluptua at, no eos amet sed lorem rebum amet. Dolores dolor voluptua sit sea."
+                          .text
+                          .textStyle(context.captionStyle)
+                          .make()
+                          .p16()
+                    ],
+                  ).py64(),
+                ),
               ),
             ))
           ],
