@@ -13,6 +13,56 @@ class CartPage extends StatelessWidget {
           centerTitle: true,
           backgroundColor: Colors.transparent,
           title: Text("Cart")),
+      body: Column(
+        children: [_CartList().p32().expand(), Divider(), _CartTotal()],
+      ),
+    );
+  }
+}
+
+class _CartTotal extends StatelessWidget {
+  const _CartTotal({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 200.0,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          "\$9999".text.xl4.red800.make(),
+          30.widthBox,
+          ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all(context.theme.buttonColor)),
+                  onPressed: () {},
+                  child: "Buy".text.make())
+              .w32(context)
+        ],
+      ),
+    );
+  }
+}
+
+class _CartList extends StatefulWidget {
+  const _CartList({Key? key}) : super(key: key);
+
+  @override
+  State<_CartList> createState() => _CartListState();
+}
+
+class _CartListState extends State<_CartList> {
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: 25,
+      itemBuilder: (context, index) => ListTile(
+        leading: Icon(Icons.done),
+        trailing: IconButton(
+            onPressed: () {}, icon: Icon(Icons.remove_circle_outline)),
+        title: "Item 1".text.make(),
+      ),
     );
   }
 }
