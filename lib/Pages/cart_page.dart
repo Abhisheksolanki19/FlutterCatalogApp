@@ -33,7 +33,12 @@ class _CartTotal extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          "\$${_cart.totalPrice}".text.xl4.red800.make(),
+          VxConsumer(
+              notifications: {},
+              mutations: {RemoveMutation},
+              builder: (context, status) {
+                return "\$${_cart.totalPrice}".text.xl4.red800.make();
+              }),
           30.widthBox,
           ElevatedButton(
                   style: ButtonStyle(
@@ -53,10 +58,11 @@ class _CartTotal extends StatelessWidget {
   }
 }
 
-class _CartList extends StatelessWidget{
+class _CartList extends StatelessWidget {
   final CartModel _cart = (VxState.store as MyStore).cart;
   @override
   Widget build(BuildContext context) {
+    VxState.listen(context, to: [RemoveMutation]);
     return _cart.items.isEmpty
         ? "Nothing to Show here".text.xl3.makeCentered()
         : ListView.builder(
@@ -64,11 +70,8 @@ class _CartList extends StatelessWidget{
             itemBuilder: (context, index) => ListTile(
               leading: Icon(Icons.done),
               trailing: IconButton(
-                  onPressed: () {
-                    _cart.removeItem(_cart.items[index]);
-                    // setState(() {});
-                  },
-                  icon: Icon(Icons.remove_circle_outline)),
+                  onPressed: () => RemoveMutation(_cart.items[index]),
+                  icon: const Icon(Icons.remove_circle_outline)),
               title: _cart.items[index].name.text.make(),
             ),
           );
