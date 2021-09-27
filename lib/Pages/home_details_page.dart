@@ -56,14 +56,11 @@ class HomeDetailPage extends StatelessWidget {
                           .color(context.accentColor)
                           .bold
                           .make(),
-                      catalog.desc.text
-                          .textStyle(context.captionStyle)
-                          .xl
-                          .make(),
+                      catalog.desc.text.caption(context).xl.make(),
                       10.heightBox,
                       "Clita erat dolor elitr dolor justo, labore aliquyam tempor ea labore sanctus. Vero dolore rebum nonumy kasd vero sadipscing ut sit. Labore magna consetetur labore dolor lorem ut duo, amet sit justo gubergren eirmod sea vero voluptua at, no eos amet sed lorem rebum amet. Dolores dolor voluptua sit sea."
                           .text
-                          .textStyle(context.captionStyle)
+                          .caption(context)
                           .make()
                           .p16()
                     ],

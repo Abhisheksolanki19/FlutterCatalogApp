@@ -35,8 +35,8 @@ class _CartTotal extends StatelessWidget {
         children: [
           VxConsumer(
               notifications: {},
-              mutations: {RemoveMutation},
-              builder: (context, status) {
+              mutations: const {RemoveMutation},
+              builder: (context,store, status) {
                 return "\$${_cart.totalPrice}".text.xl4.red800.make();
               }),
           30.widthBox,
@@ -62,7 +62,7 @@ class _CartList extends StatelessWidget {
   final CartModel _cart = (VxState.store as MyStore).cart;
   @override
   Widget build(BuildContext context) {
-    VxState.listen(context, to: [RemoveMutation]);
+    VxState.watch(context, on: [RemoveMutation]);
     return _cart.items.isEmpty
         ? "Nothing to Show here".text.xl3.makeCentered()
         : ListView.builder(
