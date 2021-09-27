@@ -12,19 +12,37 @@ class CatalogList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: CatalogModel.items.length,
-      itemBuilder: (context, index) {
-        final catalog = CatalogModel.items[index];
-        return InkWell(
-            onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => HomeDetailPage(catalog: catalog))),
-            child: CatalogItem(catalog: catalog));
-      },
-    );
+    return !context.isMobile
+        ? GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2, crossAxisSpacing: 30),
+            shrinkWrap: true,
+            itemCount: CatalogModel.items.length,
+            itemBuilder: (context, index) {
+              final catalog = CatalogModel.items[index];
+              return InkWell(
+                  onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              HomeDetailPage(catalog: catalog))),
+                  child: CatalogItem(catalog: catalog));
+            },
+          )
+        : ListView.builder(
+            shrinkWrap: true,
+            itemCount: CatalogModel.items.length,
+            itemBuilder: (context, index) {
+              final catalog = CatalogModel.items[index];
+              return InkWell(
+                  onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              HomeDetailPage(catalog: catalog))),
+                  child: CatalogItem(catalog: catalog));
+            },
+          );
   }
 }
 
@@ -39,31 +57,41 @@ class CatalogItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var children2 = [
+      Hero(
+          tag: Key(catalog.id.toString()),
+          child: CatalogImage(image: catalog.image)),
+      Expanded(
+          child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          catalog.name.text.lg.color(context.accentColor).bold.make(),
+          catalog.desc.text.caption(context).make(),
+          10.heightBox,
+          ButtonBar(
+            alignment: MainAxisAlignment.spaceBetween,
+            buttonPadding: EdgeInsets.zero,
+            children: [
+              "\$${catalog.price}".text.xl.bold.make(),
+              AddToCart(catalog: catalog)
+            ],
+          ).pOnly(right: 8)
+        ],
+      ).p(context.isMobile ? 0 : 32))
+    ];
     return VxBox(
-        child: Row(
-      children: [
-        Hero(
-            tag: Key(catalog.id.toString()),
-            child: CatalogImage(image: catalog.image)),
-        Expanded(
-            child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            catalog.name.text.lg.color(context.accentColor).bold.make(),
-            catalog.desc.text.caption(context).make(),
-            10.heightBox,
-            ButtonBar(
-              alignment: MainAxisAlignment.spaceBetween,
-              buttonPadding: EdgeInsets.zero,
-              children: [
-                "\$${catalog.price}".text.xl.bold.make(),
-                AddToCart(catalog: catalog)
-              ],
-            ).pOnly(right: 8)
-          ],
-        ))
-      ],
-    )).color(context.cardColor).rounded.square(150).make().pOnly(bottom: 16);
+            child: context.isMobile
+                ? Row(
+                    children: children2,
+                  )
+                : Column(
+                    children: children2,
+                  ))
+        .color(context.cardColor)
+        .rounded
+        .square(150)
+        .make()
+        .pOnly(bottom: 16);
   }
 }
